@@ -1,3 +1,9 @@
+# Ignore Practice.ipynb
+Practice.ipynb
+
+# Ignore chromedriver.exe
+chromedriver.exe
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
