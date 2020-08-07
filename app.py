@@ -1,7 +1,9 @@
+from splinter import Browser
 from flask import Flask, render_template
 from flask_pymongo import PyMongo
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup as soup 
 import requests
+import pandas as pd
 
 
 app = Flask(__name__)
