@@ -3,6 +3,7 @@ from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime as dt
+import time
 
 
 def scrape_all():
@@ -102,6 +103,39 @@ def mars_facts():
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
     df.to_html()
+
+
+def mars_hemispheres (browser):
+    # Visit URL
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+
+    # Create empty list for hemisphere image urls.
+    hemi_img_urls = []
+
+    # Create empty dictionary to store titles & urls
+    hemi_dict = {}
+
+    # Loop thru the four hemisphere links.
+    soup_links = soup.find_all('div', class_="description")
+
+    for link in soup_links:
+        hemi_url = 'https://astrogeology.usgs.gov' + link.find('a')['href']
+        # Open the browser for each link
+        browser.visit(hemi_url)
+        # Let 1sec after opening the new page
+        time.sleep(1)
+
+        # Convert the browser html to a soup object
+        html = browser.html
+        soup = soup(html, 'html.parser')
+
+        # Add titles and image urls to dictionary
+        title = soup.find('h2', class_='title').text
+        img_url = soup.find('img', class_='wide-image')['src']
+        hemi_dict["title"] = title
+        hemi_dict["img_url"] = 'https://astrogeology.usgs.gov' + img_url
+        hemi_img_urls.append(hemi_dict.copy())
 
 if __name__ == "__main__":
     
